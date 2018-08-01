@@ -200,6 +200,11 @@ module.exports = NodeHelper.create({
         completed_devices++;
         structuredData.push(device);
         if (completed_devices == self.config.devices.length) {
+          structuredData = _.sortBy(structuredData, function(n) {
+              return _.indexOf(_.map(self.config.devices, function(n) {
+                return n.deviceLabel;
+              }), n.name);
+          });
           self.sendSocketNotification('DATARECEIVED', structuredData);
         }
       });
